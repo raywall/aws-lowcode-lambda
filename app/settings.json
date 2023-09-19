@@ -1,0 +1,23 @@
+{
+    "resources": [
+        {
+            "type": "api",
+            "method": "GET",
+            "path": "/v1/nodejs/{userId}",
+            "body": "json"
+        },
+        {
+            "type": "dynamodb",
+            "table": "UserTable",
+            "hash": "userId",
+            "search": null 
+        }
+    ],
+    "rules": [
+        {
+            "resources": "dynamodb",
+            "action": "get",
+            "from": "api"
+        }
+    ]
+}

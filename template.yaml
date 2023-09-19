@@ -1,0 +1,102 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM template with an API and lambda authorizer definition
+
+Globals:
+  Function:
+    MemorySize: 128
+    Timeout: 300
+
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: aws-lowcode-lambda-develop
+    Description: This model reduces the effort to develop integration lambda functions between API Gateway and the database.
+    Author: Raywall Malheiros
+    ReadmeUrl: README.md
+    Labels: ['aws', 'lowcode', 'lambda', 'development', 'integration', 'api', 'rest', 'gateway']
+    HomePageUrl: https://github.com/raywall/aws-lowcode-lambda-develop
+    SemanticVersion: 0.0.1
+    SourceCodeUrl: https://github.com/raywall/aws-lowcode-lambda-develop
+
+Parameters:
+  DynamoLocalEndpoint:
+    Type: String
+    Description: The DynamoDB local URL
+    Default: 'http://dynamodb:8000'
+
+  TableName:
+    Type: String
+    Description: The DynamoDB table for storing user information.
+    Default: 'UserTable'
+
+  Region:
+    Type: String
+    Description: Default region for deployment.
+    Default: 'sa-east-1'
+
+  AwsEnvironment:
+    Type: String
+    Description: AWS Environment where code is being executed (AWS_SAM_LOCAL or AWS).
+    Default: 'AWS_SAM_LOCAL'
+
+  DevEnvironment:
+    Type: String
+    Description: Developer environment where code is being executed (OSX, Windows, or Linux).
+    Default: 'OSX'
+
+Resources:
+  UserTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref TableName
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+      KeySchema: 
+        - AttributeName: userId
+          KeyType: HASH
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: dev
+      DefinitionUri: ./infra/swagger.yaml
+      MethodSettings:
+        - ResourcePath: /{proxy+}
+          HttpMethod: POST
+
+  LambdaLayerFunction:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: lambda-lowcode-layer
+      ContentUri: ./layer
+      CompatibleRuntimes:
+        - nodejs14.x
+    Metadata:
+      BuildMethod: nodejs14.x
+
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: nodejs14.x
+    Properties:
+      CodeUri: ./app
+      Handler: index.app
+      FunctionName: lambda-lowcode-app
+      Runtime: nodejs14.x
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: '/{proxy+}'
+            Method: ANY
+            RestApiId:
+              Ref: ApiGateway
+            Auth:
+              Authorizer: NONE
+      Layers:
+        - !Ref LambdaLayerFunction
+      
