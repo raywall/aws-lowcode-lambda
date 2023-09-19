@@ -1,9 +1,8 @@
-const { insertItem, updateItem, deleteItem, getItem } = require("data/dynamo.js")
-const AWS = require("aws-sdk")
+const { insertItem, updateItem, deleteItem, getItem } = require("./data/dynamo.js")
+const { formatResponse, formatError, getVariables, checkPath } = require("./util/functions.js")
+const { resourceType, actionType } = require("./util/types.js")
 
-const config = require("config/setting.json")
-
-exports.handler = async function(event, context) {
+exports.lowcodeLambda = async function(event, context, config) {
     try {
         const rule = config.rules[0]
         const api = config.resources.find(r =>
@@ -17,37 +16,32 @@ exports.handler = async function(event, context) {
         const variables = getVariables(event.path, api.path)
 
         switch (rule.resources) {
-            case "dynamodb":
-                if (rule.action  == "insert") {
+            case resourceType.DynamoDB:
+                if (rule.action  == actionType.Insert) {
                     var params = {
                         TableName: config.resources.find( r => r.type === rule.resourceType),
                         Item: JSON.parse(event.body)
                     }
 
-                    return formatResponse(JSON.stringfy(await insertItem(params)))
+                    return formatResponse(201, JSON.stringfy(await insertItem(params)))
                 }
 
-                else if (rule.action == "get") {
+                else if (rule.action == actionType.Query) {
                     var params = {
                         TableName: config.resources.find( r => r.type === rule.resourceType),
                         Key: variables
                     }
 
-                    return formatResponse(JSON.stringfy(await getItem(params)))
+                    return formatResponse(200, JSON.stringfy(await getItem(params)))
                 }
 
             default:
                 break;
             }
         }
-    }
-    catch (error) {
+    } catch(error) {
         return formatError(error.statusCode, error.message)
     }
 
-    return formatResponse("Ok")
-}
-
-var formatResponse = {
-
+    return formatResponse(200, "Ok")
 }

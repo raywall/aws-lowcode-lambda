@@ -14,9 +14,9 @@ Metadata:
     Author: Raywall Malheiros
     ReadmeUrl: README.md
     Labels: ['aws', 'lowcode', 'lambda', 'development', 'integration', 'api', 'rest', 'gateway']
-    HomePageUrl: https://github.com/raywall/aws-lowcode-lambda-develop
-    SemanticVersion: 0.0.1
-    SourceCodeUrl: https://github.com/raywall/aws-lowcode-lambda-develop
+    HomePageUrl: https://github.com/raywall/aws-lowcode-lambda
+    SemanticVersion: 0.0.2
+    SourceCodeUrl: https://github.com/raywall/aws-lowcode-lambda
 
 Parameters:
   DynamoLocalEndpoint:
@@ -68,15 +68,16 @@ Resources:
         - ResourcePath: /{proxy+}
           HttpMethod: POST
 
-  LambdaLayerFunction:
+  LowcodeLayer:
     Type: AWS::Serverless::LayerVersion
+    Metadata:
+      BuildMethod: nodejs14.x
     Properties:
       LayerName: lambda-lowcode-layer
       ContentUri: ./layer
       CompatibleRuntimes:
         - nodejs14.x
-    Metadata:
-      BuildMethod: nodejs14.x
+      RetentionPolicy: Retain
 
   LambdaFunction:
     Type: AWS::Serverless::Function
@@ -98,5 +99,5 @@ Resources:
             Auth:
               Authorizer: NONE
       Layers:
-        - !Ref LambdaLayerFunction
+        - !Ref LowcodeLayer
       

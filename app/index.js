@@ -1,3 +1,6 @@
-const { handler } = require("/opt/nodejs");
+const { lowcodeLambda } = require("/opt/nodejs/lowcode-lambda-layer");
+const config = require("./setting.json");
 
-exports.app = handler
+exports.handler = async (event, context) => {
+    return lowcodeLambda(event, context, config)
+}
