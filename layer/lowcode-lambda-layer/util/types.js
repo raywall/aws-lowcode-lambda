@@ -12,7 +12,9 @@ const actionType = {
     Insert: "insert",
     Update: "update",
     Delete: "delete",
-    Process: "process"
+    Process: "process",
+    Download: "download",
+    Upload: "upload"
 }
 
 module.exports = { actionType, resourceType }

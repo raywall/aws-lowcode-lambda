@@ -1,47 +1,32 @@
-const { insertItem, updateItem, deleteItem, getItem } = require("./data/dynamo.js")
-const { formatResponse, formatError, getVariables, checkPath } = require("./util/functions.js")
-const { resourceType, actionType } = require("./util/types.js")
+const { processBucketRequest } = require("./modules/bucket.js")
+const { processDynamoRequest } = require("./modules/dynamo.js")
+const { processSnsRequest } = require("./modules/sns.js")
+const { processSqsRequest } = require("./modules/sqs.js")
+const { processStepFuncRequest } = require("./modules/stepfunctions.js")
+const { formatError, getVariables, checkPath } = require("./util/functions.js")
+const { resourceType } = require("./util/types.js")
 
 exports.lowcodeLambda = async function(event, context, config) {
     try {
-        const rule = config.rules[0]
-        const api = config.resources.find(r =>
-            r.type === rule.from **
-            r.method === event.httpMethod,
-            checkPath(event.path, r.path))
-
-        if (!api)
-            return formatError(404, "method not found")
-
-        const variables = getVariables(event.path, api.path)
-
         switch (rule.resources) {
+            case resourceType.BucketS3:
+                return await processBucketRequest(config)
+
             case resourceType.DynamoDB:
-                if (rule.action  == actionType.Insert) {
-                    var params = {
-                        TableName: config.resources.find( r => r.type === rule.resourceType),
-                        Item: JSON.parse(event.body)
-                    }
+                return await processDynamoRequest(config, event)
+            
+            case resourceType.SNS:
+                return await processSnsRequest(config)
 
-                    return formatResponse(201, JSON.stringfy(await insertItem(params)))
-                }
+            case resourceType.SQS:
+                return await processSqsRequest(config)
 
-                else if (rule.action == actionType.Query) {
-                    var params = {
-                        TableName: config.resources.find( r => r.type === rule.resourceType),
-                        Key: variables
-                    }
-
-                    return formatResponse(200, JSON.stringfy(await getItem(params)))
-                }
-
-            default:
-                break;
-            }
+            case resourceType.StepFunction:
+                return await processStepFuncRequest(config)
         }
     } catch(error) {
         return formatError(error.statusCode, error.message)
     }
 
-    return formatResponse(200, "Ok")
+    return formatError(500, "option not recognized")
 }
