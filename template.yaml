@@ -85,7 +85,7 @@ Resources:
       BuildMethod: nodejs14.x
     Properties:
       CodeUri: ./app
-      Handler: index.app
+      Handler: index.handler
       FunctionName: lambda-lowcode-app
       Runtime: nodejs14.x
       Events:

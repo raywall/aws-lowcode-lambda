@@ -9,13 +9,13 @@
         {
             "type": "dynamodb",
             "table": "UserTable",
-            "hash": "userId",
-            "search": null 
+            "pk": "userId",
+            "sk": null 
         }
     ],
     "rules": [
         {
-            "resources": "dynamodb",
+            "resource": "dynamodb",
             "action": "get",
             "from": "api"
         }

@@ -1,6 +1,6 @@
 const { lowcodeLambda } = require("/opt/nodejs/lowcode-lambda-layer");
-const config = require("./setting.json");
+const config = require("./settings.json");
 
 exports.handler = async (event, context) => {
-    return lowcodeLambda(event, context, config)
+    return await lowcodeLambda(event, context, config)
 }

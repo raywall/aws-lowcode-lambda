@@ -3,17 +3,19 @@ const { processDynamoRequest } = require("./modules/dynamo.js")
 const { processSnsRequest } = require("./modules/sns.js")
 const { processSqsRequest } = require("./modules/sqs.js")
 const { processStepFuncRequest } = require("./modules/stepfunctions.js")
-const { formatError, getVariables, checkPath } = require("./util/functions.js")
+const { formatError } = require("./util/functions.js")
 const { resourceType } = require("./util/types.js")
 
 exports.lowcodeLambda = async function(event, context, config) {
     try {
-        switch (rule.resources) {
+        const rule = config.rules[0]
+
+        switch (rule.resource) {
             case resourceType.BucketS3:
                 return await processBucketRequest(config)
 
             case resourceType.DynamoDB:
-                return await processDynamoRequest(config, event)
+                return await processDynamoRequest(rule, config, event)
             
             case resourceType.SNS:
                 return await processSnsRequest(config)
@@ -23,10 +25,11 @@ exports.lowcodeLambda = async function(event, context, config) {
 
             case resourceType.StepFunction:
                 return await processStepFuncRequest(config)
+
+            default:
+                return formatError(500, "option not recognized")
         }
     } catch(error) {
         return formatError(error.statusCode, error.message)
     }
-
-    return formatError(500, "option not recognized")
 }

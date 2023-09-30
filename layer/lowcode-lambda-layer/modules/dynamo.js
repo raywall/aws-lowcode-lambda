@@ -1,34 +1,17 @@
 const AWS = require("aws-sdk")
 
-const { formatError, formatResponse, checkPath } = require("../util/functions")
-const { actionType } = require("../util/types")
+const { getVariables, formatError, formatResponse, checkPath } = require("../util/functions.js")
+const { actionType } = require("../util/types.js")
 
 const dynamodb = new AWS.DynamoDB.DocumentClient({
     region: "sa-east-1",
     endpoint: "http://dynamodb:8000"
 })
 
-async function insertItem(params) {
-    return dynamodb.put(params).promise()
-}
-
-async function updateItem(params) {
-    return dynamodb.update(params).promise()
-}
-
-async function deleteItem(params) {
-    return dynamodb.delete(params).promise()
-}
-
-async function getItem(params) { 
-    return dynamodb.get(params).promise()
-}
-
-async function processDynamoRequest(config, event) {
-    const rule = config.rules[0]
-    const api = config.resources.find(r =>
-        r.type === rule.from **
-        r.method === event.httpMethod,
+async function processDynamoRequest(rule, config, event) {
+    const api = config.resources.find(r => 
+        r.type === rule.from &&
+        r.method === event.httpMethod &&
         checkPath(event.path, r.path))
     
     if (!api)
@@ -39,41 +22,41 @@ async function processDynamoRequest(config, event) {
     // Insert
     if (rule.action  == actionType.Insert) {
         var params = {
-            TableName: config.resources.find(r => r.type === rule.resourceType),
+            TableName: config.resources.find(r => r.type === rule.resource).table,
             Item: JSON.parse(event.body)
         }
 
-        return formatResponse(201, JSON.stringfy(await insertItem(params)))
+        return formatResponse(201, JSON.stringify(await dynamodb.put(params).promise()))
     }
 
     // Update
     else if (rule.action == actionType.Update) {
         var params = {
-            TableName: config.resources.find(r => r.type === rule.resourceType),
+            TableName: config.resources.find(r => r.type === rule.resource).table,
             Item: JSON.parse(event.body)
         }
 
-        return formatResponse(201, JSON.stringfy(await updateItem(params)))
+        return formatResponse(200, JSON.stringify(await dynamodb.update(params).promise()))
     }
 
     // Select
     else if (rule.action == actionType.Query) {
         var params = {
-            TableName: config.resources.find(r => r.type === rule.resourceType),
+            TableName: config.resources.find(r => r.type === rule.resource).table,
             Key: variables
         }
-
-        return formatResponse(200, JSON.stringfy(await getItem(params)))
+        
+        return formatResponse(200, JSON.stringify(await dynamodb.get(params).promise()))
     }
 
     // Delete
     else if (rule.action == actionType.Delete) {
         var params = {
-            TableName: config.resources.find(r => r.type === rule.resourceType),
+            TableName: config.resources.find(r => r.type === rule.resource).table,
             Key: variables
         }
 
-        return formatResponse(201, JSON.stringfy(await deleteItem(params)))
+        return formatResponse(200, JSON.stringify(await dynamodb.delete(params).promise()))
     }
 }
 
