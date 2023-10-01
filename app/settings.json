@@ -2,8 +2,8 @@
     "resources": [
         {
             "type": "api",
-            "method": "POST",
-            "path": "/v1/nodejs",
+            "method": "GET",
+            "path": "/v1/nodejs/{userId}",
             "body": "json"
         },
         {
@@ -16,7 +16,7 @@
     "rules": [
         {
             "resource": "dynamodb",
-            "action": "insert",
+            "action": "query",
             "from": "api"
         }
     ]
