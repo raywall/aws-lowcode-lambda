@@ -8,6 +8,24 @@ const dynamodb = new AWS.DynamoDB.DocumentClient({
     endpoint: "http://dynamodb:8000"
 })
 
+async function postDynamoData(tableName, args, body) {
+    var params = {
+        TableName: tableName,
+        Item: JSON.parse(body)
+    }
+    
+    return formatResponse(201, JSON.stringify(await dynamodb.put(params).promise()))
+}
+
+async function getDynamoData(tableName, args) {
+    var params = {
+        TableName: tableName,
+        Key: args
+    }
+    
+    return formatResponse(200, JSON.stringify(await dynamodb.get(params).promise()))
+}
+
 async function processDynamoRequest(rule, config, event) {
     const api = config.resources.find(r => 
         r.type === rule.from &&
@@ -60,4 +78,4 @@ async function processDynamoRequest(rule, config, event) {
     }
 }
 
-module.exports = { processDynamoRequest }
+module.exports = { postDynamoData, getDynamoData, processDynamoRequest }

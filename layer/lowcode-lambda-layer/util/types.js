@@ -17,4 +17,9 @@ const actionType = {
     Upload: "upload"
 }
 
-module.exports = { actionType, resourceType }
+const messageType = {
+    Method: 0,
+    Resource: 1
+}
+
+module.exports = { actionType, resourceType, messageType }
