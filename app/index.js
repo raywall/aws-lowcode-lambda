@@ -1,41 +1,22 @@
-/** 
- * Running with settings.json
- */
-
-// const { lowcodeLambda } = require("/opt/nodejs/lowcode-lambda-layer")
-// const config = require("./settings.json")
-
-// exports.handler = async (event, context) => {
-//     return await lowcodeLambda(event, context, config)
-// }
-
-
-/** 
- * Running with API class
- */
-
-// const { API, DynamoResource } = require('/opt/nodejs/lowcode-lambda-layer/modules/api.js')
-
-// exports.handler = async (event, context) => {
-//     var api = new API('sa-east-1', 'http://dynamodb:8000', event)
-//     var table = new DynamoDB('UserTable', 'userId', null)
-
-//     return await api.get('/v1/nodejs/{userId}', table)
-// }
-
-
-/** 
- * Running more than one method with LowCodeLambda class 
- */
-
-const { LowCodeLambda, DynamoResource } = require('/opt/nodejs/lowcode-lambda-layer')
+const { LowCodeLambda, DynamoResource, Response } = require('/opt/nodejs/lowcode-lambda-layer')
 
 exports.handler = async (event) => {
-    const app = new LowCodeLambda('sa-east-1', 'http://dynamodb:8000')
-    const table = new DynamoResource('UserTable', 'userId', null)
+    const app = new LowCodeLambda()
+    const resource = new DynamoResource('sa-east-1', 'http://dynamodb:8000', 'UserTable', 'userId')
 
-    app.get('/v1/nodejs/{userId}', table)
-    app.post('/v1/nodejs', table)
-    
+    // app.get('/v1/nodejs/{userId}', resource)
+
+    app.get('/v1/nodejs/{userId}', resource, (req, args) => {
+        if (args.userId === '123') {
+            return new Response(501, 'condition has failed')
+        }
+
+        return new Response(200)
+    })
+
+    app.post('/v1/nodejs', resource)
+    app.put('/v1/nodejs/{userId}', resource)
+    app.delete('/v1/nodejs/{userId}', resource)
+
     return await app.start(event)
-};
+}

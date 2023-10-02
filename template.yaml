@@ -71,7 +71,7 @@ Resources:
   LowcodeLayer:
     Type: AWS::Serverless::LayerVersion
     Metadata:
-      BuildMethod: nodejs14.x
+      BuildMethod: nodejs18.x
     Properties:
       LayerName: lambda-lowcode-layer
       ContentUri: ./layer
@@ -82,7 +82,7 @@ Resources:
   LambdaFunction:
     Type: AWS::Serverless::Function
     Metadata:
-      BuildMethod: nodejs14.x
+      BuildMethod: nodejs18.x
     Properties:
       CodeUri: ./app
       Handler: index.handler
