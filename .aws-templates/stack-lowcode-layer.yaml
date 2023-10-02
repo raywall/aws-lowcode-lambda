@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creating a public layer on AWS with AWS CloudFormation
+
+Resources:
+  LayesBucketS3:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: raysouz-public-layers
+
+  LowCodeLambdaLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      CompatibleArchitectures:
+        - arm64
+      CompatibleRuntimes:
+        - nodejs18.x
+      Content: 
+        S3Bucket: !Sub ${LayesBucketS3}
+        S3Key: /packages/lowcode-lambda-layer.zip
+      Description: Layer for my Lambda functions
+      LayerName: raysouz-lowcode-lambda-layer
+      LicenseInfo: MIT
+
+  LayerPermission:
+    Type: AWS::Lambda::LayerVersionPermission
+    Properties:
+      Action: lambda:GetLayerVersion
+      LayerVersionArn: !GetAtt LowCodeLambdaLayer.Arn
+      Principal: "*"
+
+  LowCodeLambdaTester:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Role: !GetAtt LowCodeLambdaTesterRole.Arn
+      FunctionName: lowcode-lambda-tester
+      Code:
+        S3Bucket: !Ref LayesBucketS3
+        S3Key: /app/lowcode-lambda-tester.zip
+      Runtime: nodejs14.x
+      Timeout: 300
+      MemorySize: 128
+
+  LowCodeLambdaTesterRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Description: Allow get and put objects on s3 bucket
+      Policies:
+        - PolicyName: LambdaExecutionPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                Resource: 
+                  - !GetAtt LayesBucketS3.Arn
+                  - !Sub ${LayesBucketS3.Arn}/*
+      RoleName: lowcode-lambda-tester-role
+
+Outputs:
+  LowCodeLambdaLayerArn:
+    Description: Public ARN of the lowcode lambda layer
+    Value: !GetAtt LowCodeLambdaLayer.Arn

@@ -1,55 +1,22 @@
-/** 
- * Running with settings.json
- */
+const { LowCodeLambda, DynamoResource, Response } = require('/opt/nodejs/lowcode-lambda-layer')
 
-// const { lowcodeLambda } = require("/opt/nodejs/lowcode-lambda-layer")
-// const config = require("./settings.json")
+exports.handler = async (event) => {
+    const app = new LowCodeLambda()
+    const resource = new DynamoResource('sa-east-1', 'http://dynamodb:8000', 'UserTable', 'userId')
 
-// exports.handler = async (event, context) => {
-//     return await lowcodeLambda(event, context, config)
-// }
+    // app.get('/v1/nodejs/{userId}', resource)
 
+    app.get('/v1/nodejs/{userId}', resource, (req, args) => {
+        if (args.userId === '123') {
+            return new Response(501, 'condition has failed')
+        }
 
-/** 
- * Running with API class
- */
+        return new Response(200)
+    })
 
-const { API, DynamoDB } = require('/opt/nodejs/lowcode-lambda-layer/modules/api.js')
+    app.post('/v1/nodejs', resource)
+    app.put('/v1/nodejs/{userId}', resource)
+    app.delete('/v1/nodejs/{userId}', resource)
 
-exports.handler = async (event, context) => {
-    var api = new API('sa-east-1', 'http://dynamodb:8000', event)
-    var table = new DynamoDB('UserTable', 'userId', null)
-
-    return await api.get('/v1/nodejs/{userId}', table)
+    return await app.start(event)
 }
-
-
-/** 
- * Running more than one method with LowCodeLambda class 
- */
-
-// const { API, DynamoDB } = require('/opt/nodejs/lowcode-lambda-layer/modules/api.js')
-
-// const lowcode = require('/opt/nodejs/lowcode-lambda-layer')
-// const app = lowcode()
-
-// const api = new API('sa-east-1', 'http://dynamodb:8000')
-// const table = new DynamoDB('UserTable', 'userId', null)
-
-// app.get('/v1/nodejs/{userId}', table)
-// app.post('/v1/nodejs', table)
-
-// const handler = serverless(app);
-
-// const startServer = async () => {
-//     app.listen(3000, () => {
-//       console.log("listening on port 3000!");
-//     })
-// }
-
-// startServer()
-
-// module.exports.handler = (event, context, callback) => {
-//     const response = handler(event, context, callback);
-//     return response;
-// }
