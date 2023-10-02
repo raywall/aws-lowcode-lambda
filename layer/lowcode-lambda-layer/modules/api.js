@@ -49,26 +49,30 @@ class API {
 
     // method: post
     async post(route, resource) {
-        if (!this.validateRequest('POST', route, this.event))
+        if (!this.validateRequest('POST', route, this.event)) {
             return this.notSupported(messageType.Method)
+        }
 
         const params = getVariables(this.event.path, route)
         
-        if (resource instanceof DynamoDB)
+        if (resource instanceof DynamoDB) {
             return await postDynamoData(resource.tableName, params, this.event.body)
+        }
 
         return notSupported(messageType.Resource)
     }
 
     // method: get
     async get(route, resource) {
-        if (!this.validateRequest('GET', route, this.event))
+        if (!this.validateRequest('GET', route, this.event)) {
             return this.notSupported(messageType.Method)
+        }
 
         const params = getVariables(this.event.path, route)
         
-        if (resource instanceof DynamoDB)
+        if (resource instanceof DynamoDB) {
             return await getDynamoData(resource.tableName, params)
+        }
 
         return this.notSupported(messageType.Resource)
     }

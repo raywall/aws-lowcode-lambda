@@ -43,4 +43,6 @@
  * Running more than one method with LowCodeLambda class 
  */
 
-module.exports = require('./modules/lambda.js')
+const { LowCodeLambda, DynamoResource } = require('./lib/lambda.js')
+
+module.exports = { LowCodeLambda, DynamoResource }

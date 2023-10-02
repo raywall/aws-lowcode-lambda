@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creating a public layer on AWS with AWS CloudFormation
+
+Resources:
+  LowCodeLambdaLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      CompatibleRuntimes:
+        - nodejs14.x
+      ContentUri: s3://raysouz-public-layers/lowcode-lambda-layer.zip
+
+  LayerPermission:
+    Type: AWS::Lambda::LayerVersionPermission
+    Properties:
+      Action: lambda:GetLayerVersion
+      LayerVersionArn: !GetAtt LowCodeLambdaLayer.Arn
+      Principal: "*"
+
+Outputs:
+  LowCodeLambdaLayerrArn:
+    Description: Public ARN of the lowcode lambda layer
+    Value: !GetAtt LowCodeLambdaLayer.Arn

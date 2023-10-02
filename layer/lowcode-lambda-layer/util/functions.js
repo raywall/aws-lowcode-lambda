@@ -1,28 +1,23 @@
-var formatResponse = function(statusCode, body) {
+var formatResponse = function(status, body) {
     var response = {
-        "statusCode": statusCode,
-        "headers": {
-            "Content-Type": "application/json"
+        statusCode: status,
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
         },
-        "isBase64Encoded": false,
-        "multiValueHeaders": {
-            "X-Custom-Header": ["My value", "My other value"]
-        },
-        "body": body
+        body: body
     }
 
     return response
 }
 
-var formatError = function(statusCode, message) {
+var formatError = function(status, message) {
     var response = {
-        "statusCode": statusCode,
-        "headers": {
-            "Content-Type": "text/plain"
-            // "x-amzn-ErrorType": code
+        statusCode: status,
+        headers: {
+            'Content-Type': 'text/plain'
         },
-        "isBase64Encoded": false,
-        "body": message
+        body: message
     }
 
     return response
