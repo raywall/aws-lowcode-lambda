@@ -1,3 +1,3 @@
-const { LowCodeLambda, DynamoResource, Response } = require('./lib/api.js')
+const { LowCodeLambda, DynamoResource, Response, Configuration } = require('./lib/api.js')
 
-module.exports = { LowCodeLambda, DynamoResource, Response }
+module.exports = { LowCodeLambda, DynamoResource, Response, Configuration }
