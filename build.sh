@@ -5,4 +5,4 @@
 # aws dynamodb create-table --endpoint-url http://localhost:8000 --table-name UserTable --attribute-definitions AttributeName="userId",AttributeType="S" --key-schema AttributeName="userId",KeyType=HASH --provisioned-throughput ReadCapacityUnits=2,WriteCapacityUnits=2
 
 sam build -t template.yaml
-sam local start-api --docker-network local-api-network --skip-pull-image
+sam local start-api --docker-network local-api-network --skip-pull-image --warm-containers eager

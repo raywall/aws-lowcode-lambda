@@ -1,11 +1,11 @@
 {
   "name": "lambda-lowcode-layer",
   "version": "1.0.0",
-  "description": "",
-  "main": "lowcode-lambda-layer/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "package to ease create integration low-code lambda functions",
+  "main": "index.js",
   "author": "Raywall Malheiros",
-  "license": "ISC"
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.1468.0"
+  }
 }
