@@ -8,7 +8,6 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    working-directory: layer/lowcode-lambda-layer
 
     steps:
       - name: Checkout code
@@ -20,9 +19,11 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
+        working-directory: layer/lowcode-lambda-layer
         run: npm install
 
       - name: Publish to npm
+        working-directory: layer/lowcode-lambda-layer
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
