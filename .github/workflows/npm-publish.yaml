@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Node.js Package
 
 on:
   push:
@@ -6,24 +6,30 @@ on:
       - main  # ou o nome da sua branch principal
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '18'
-
-      - name: Install dependencies
+          node-version: 18
+      - run: npm ci
         working-directory: layer/lowcode-lambda-layer
-        run: npm install
-
-      - name: Publish to npm
+      - run: npm test
         working-directory: layer/lowcode-lambda-layer
-        run: npm publish
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+        working-directory: layer/lowcode-lambda-layer
+      - run: npm publish
+        working-directory: layer/lowcode-lambda-layer
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
