@@ -23,7 +23,7 @@ Using
 
 @raysouz/lambda-lowcode-layer is a easy framework to use, And there are some ways to do this:
 
-1. You can get the package from [npmjs.com](https://www.npmjs.com/package/@raysouz/lambda-lowcode-layer) using 'npm i @raysouz/lambda-lowcode-layer'
+1. You can get the package from [npmjs.com](https://www.npmjs.com/package/lambda-lowcode-layer) using 'npm i @raysouz/lambda-lowcode-layer'
 2. You can refer our public lambda layer on AWS using ARN: arn:aws:lambda:us-east-1:844370664488:layer:lowcode-lambda-layer:1
 3. You can get the release zip file on [release layer](https://github.com/raywall/aws-lowcode-lambda/tree/main/.package) and create your own AWS lambda layer
 
