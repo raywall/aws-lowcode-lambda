@@ -1,5 +1,5 @@
 15-OCT-2023: 1.0.3
 
-- Fixes possible NPE in clonePages error handler
-- [vsdx] Stops using default theme when theme index not found [DID-9622]
-- Fixes tags dialog icons in dark mode [drawio-3910]
+- Included first version of ChangeLog
+- Renamed the package from lambda-lowcode-layer to @lowcode/lambda-layer
+- Included first versions of Code of conduct, license, Security, Version and Readme files
