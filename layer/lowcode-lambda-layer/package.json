@@ -1,6 +1,6 @@
 {
   "name": "@raysouz/lambda-lowcode-layer",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Framework to easy create lambda low-code integrations",
   "main": "index.js",
   "author": "Raywall Malheiros",
