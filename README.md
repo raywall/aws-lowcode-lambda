@@ -1,4 +1,4 @@
-# @lowcode/lambda-layer
+# @raysouz/lambda-lowcode-layer
 
 About
 -----
@@ -14,16 +14,16 @@ Additional minified JavaScript files and Java libraries are used in this project
 Scope of the Project
 --------------------
 
-@lowcode/lambda-layer is a framework that you can use to build your own AWs lambda functions with it.
+@raysouz/lambda-lowcode-layer is a framework that you can use to build your own AWs lambda functions with it.
 
 If you are using a @lowcode/lambda-layer project/framework and have issues or questions about the available services integrations, the issue tracker and discussion in this GitHub project are likely a good place to look.
 
 Using
 -----
 
-@lowcode/lambda-layer is a easy framework to use, And there are some ways to do this:
+@raysouz/lambda-lowcode-layer is a easy framework to use, And there are some ways to do this:
 
-1. You can get the package from [npmjs.com](https://www.npmjs.com/~raysouz) using 'npm i @lowcode/lambda-layer'
+1. You can get the package from [npmjs.com](https://www.npmjs.com/package/lambda-lowcode-layer) using 'npm i @raysouz/lambda-lowcode-layer'
 2. You can refer our public lambda layer on AWS using ARN: arn:aws:lambda:us-east-1:844370664488:layer:lowcode-lambda-layer:1
 3. You can get the release zip file on [release layer](https://github.com/raywall/aws-lowcode-lambda/tree/main/.package) and create your own AWS lambda layer
 
@@ -98,4 +98,4 @@ Services available for integration
 Node.js Versions
 ----------------
 
-@lowcode/lambda-layer was built using Node.js v14
+@raysouz/lambda-lowcode-layer was built using Node.js v14

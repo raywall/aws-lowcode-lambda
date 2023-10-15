@@ -1,5 +1,9 @@
 15-OCT-2023: 1.0.3
 
 - Included first version of ChangeLog
-- Renamed the package from lambda-lowcode-layer to @lowcode/lambda-layer
 - Included first versions of Code of conduct, license, Security, Version and Readme files
+
+
+15-OCT-2023: 1.0.4
+
+- Renamed the package from lambda-lowcode-layer to @raysouz/lambda-lowcode-layer
