@@ -1,4 +1,4 @@
-export class Configuration {
+class Configuration {
     constructor(condition = undefined, headers = null, body = null, path = null) {
         this.condition = condition
         this.headers = headers
@@ -6,3 +6,5 @@ export class Configuration {
         this.path = path
     }
 }
+
+module.exports = { Configuration }
