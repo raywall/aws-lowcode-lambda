@@ -82,12 +82,12 @@ Resources:
   LambdaFunction:
     Type: AWS::Serverless::Function
     Metadata:
-      BuildMethod: nodejs18.x
+      BuildMethod: nodejs14.x
     Properties:
       CodeUri: ./app
       Handler: index.handler
       FunctionName: lambda-lowcode-app
-      Runtime: nodejs18.x
+      Runtime: nodejs14.x
       Events:
         ApiEvent:
           Type: Api
