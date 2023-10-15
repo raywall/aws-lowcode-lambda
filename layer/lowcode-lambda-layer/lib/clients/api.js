@@ -1,7 +1,7 @@
 const { formatError, formatResponse } = require('../functions');
 const https = require('https');
 
-export class ApiResource {
+class ApiResource {
     constructor(hostname, port) {
         this.hostname = hostname
         this.port = port
@@ -60,3 +60,5 @@ export class ApiResource {
         return this._request(path, 'DELETE', headers)
     }
 }
+
+module.exports = { ApiResource }
