@@ -1,0 +1,5 @@
+15-OCT-2023: 1.0.3
+
+- Fixes possible NPE in clonePages error handler
+- [vsdx] Stops using default theme when theme index not found [DID-9622]
+- Fixes tags dialog icons in dark mode [drawio-3910]
