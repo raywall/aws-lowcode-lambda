@@ -1,10 +1,20 @@
 {
-  "name": "lambda-lowcode-layer",
-  "version": "1.0.1",
-  "description": "package to ease create integration low-code lambda functions",
+  "name": "@lowcode/lambda-layer",
+  "version": "1.0.3",
+  "description": "Framework to easy create lambda low-code integrations",
   "main": "index.js",
   "author": "Raywall Malheiros",
-  "license": "MIT",
+  "license": "Apache-2.0",
+  "keywords": [
+    "aws",
+    "lambda",
+    "lowcode",
+    "framework",
+    "package",
+    "api",
+    "dynamodb",
+    "services"
+  ],
   "dependencies": {
     "aws-sdk": "^2.1468.0",
     "events": "^3.3.0",

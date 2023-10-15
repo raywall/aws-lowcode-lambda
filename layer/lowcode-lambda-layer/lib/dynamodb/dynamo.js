@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk')
 
-const { formatError, formatResponse } = require('../structure/functions.js')
+const { formatError, formatResponse } = require('../functions.js')
 
 class DynamoResource {
     constructor(region = 'sa-east-1', endpointUrl = null, tableName, pk, sk = null) {

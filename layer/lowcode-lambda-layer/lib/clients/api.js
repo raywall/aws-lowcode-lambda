@@ -1,4 +1,4 @@
-const { formatError, formatResponse } = require('../structure/functions');
+const { formatError, formatResponse } = require('../functions');
 const https = require('https');
 
 export class ApiResource {

@@ -1,8 +1,8 @@
-const { getVariables, formatError, checkPath } = require('../structure/functions.js')
-const { Event, Response, Configuration } = require('../modules/controls.js')
-const { DynamoResource } = require('../modules/dynamo.js')
+const { getVariables, formatError, checkPath } = require('./functions')
+const { Event, Response, Configuration } = require('../model/configuration')
+const { DynamoResource } = require('./dynamodb/dynamo.')
 const { EventEmitter } = require('events');
-const { ApiResource } = require('../modules/api.js');
+const { ApiResource } = require('./clients/api');
 
 class LowCodeLambda {
     constructor(region = 'sa-east-1') {
