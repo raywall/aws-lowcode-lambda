@@ -12,3 +12,8 @@
 15-OCT-2023: 1.0.5
 
 - Included a README.md for nmpjs.org
+
+
+15-OCT-2023: 1.0.6
+
+- Bug on export some new classes
