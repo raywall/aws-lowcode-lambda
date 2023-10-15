@@ -1,6 +1,8 @@
 const { getVariables, formatError, checkPath } = require('./functions')
-const { Event, Response, Configuration } = require('../model/configuration')
-const { DynamoResource } = require('./dynamodb/dynamo.')
+const { Configuration } = require('../model/configuration')
+const { Event } = require('../model/event')
+const { Response } = require('../model/response')
+const { DynamoResource } = require('./dynamodb/dynamo')
 const { EventEmitter } = require('events');
 const { ApiResource } = require('./clients/api');
 
@@ -43,7 +45,7 @@ class LowCodeLambda {
                 return formatError(501, 'method not supported')
     
             const params = getVariables(req.path, route)
-            let valid = this.validateCondition(config.condition, req, params)
+            let valid = this.validateCondition(config?.condition || undefined, req, params)
 
             if (valid.statusCode !== 200)
                 return valid
@@ -75,7 +77,7 @@ class LowCodeLambda {
                 return formatError(501, 'method not supported')
     
             const params = getVariables(req.path, route)
-            let valid = this.validateCondition(config.condition, req, params)
+            let valid = this.validateCondition(config?.condition || undefined, req, params)
 
             if (valid.statusCode !== 200)
                 return valid
@@ -107,7 +109,7 @@ class LowCodeLambda {
                 return formatError(501, 'method not supported')
     
             const params = getVariables(req.path, route)
-            let valid = this.validateCondition(config.condition, req, params)
+            let valid = this.validateCondition(config?.condition || undefined, req, params)
 
             if (valid.statusCode !== 200)
                 return valid
@@ -139,7 +141,7 @@ class LowCodeLambda {
                 return formatError(501, 'method not supported')
     
             const params = getVariables(req.path, route)
-            let valid = this.validateCondition(config.condition, req, params)
+            let valid = this.validateCondition(config?.condition || undefined, req, params)
 
             if (valid.statusCode !== 200)
                 return valid

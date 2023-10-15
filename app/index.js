@@ -16,7 +16,7 @@ exports.handler = async (event) => {
         }}
 
     // calling api resource
-    app.get('/v1/redir/{userId}', api)
+    // app.get('/v1/redir/{userId}', api)
 
     // calling dynamodb resource
     app.get('/v1/nodejs/{userId}', resource, config)
