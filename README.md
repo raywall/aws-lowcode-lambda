@@ -38,7 +38,7 @@ In this example you're using:
 2. PUT on 'http://myapi.com/v1/users' route to insert a new record of an user
 
 You can choose one of the three options to refer the framework described above, then you can start write your code like this:
-```nodejs
+```node.js
 const { LowCodeLambda, DynamoResource } = require("lambda-lowcode-layer")
 
 exports.handler = async (event) => {
@@ -59,7 +59,7 @@ exports.handler = async (event) => {
 You also can user a middleware function to create a custom validation that need to be checked before the action configured. Let's say for any reason you won't allow the GET method return information about an specific username, like raysouz.
 
 You can write the condition, then you can pass the condition through the app.get declaration:
-```nodejs
+```node.js
 const { LowCodeLambda, DynamoResource } = require("lambda-lowcode-layer")
 
 exports.handler = async (event) => {
