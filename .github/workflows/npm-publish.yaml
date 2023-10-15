@@ -29,7 +29,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
         working-directory: layer/lowcode-lambda-layer
-      - run: npm publish
+      - run: npm publish --access public
         working-directory: layer/lowcode-lambda-layer
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
