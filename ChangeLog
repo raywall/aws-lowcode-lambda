@@ -1,4 +1,4 @@
-15-OCT-2023: 1.0.0
+15-OCT-2023: 1.0.3
 
 - Included first version of ChangeLog
 - Renamed the package from lambda-lowcode-layer to @lowcode/lambda-layer
