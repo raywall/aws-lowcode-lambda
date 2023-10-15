@@ -1,4 +1,4 @@
-export var formatResponse = function(status, body) {
+var formatResponse = function(status, body) {
     var response = {
         statusCode: status,
         headers: {
@@ -11,7 +11,7 @@ export var formatResponse = function(status, body) {
     return response
 }
 
-export var formatError = function(status, message) {
+var formatError = function(status, message) {
     var response = {
         statusCode: status,
         headers: {
@@ -23,7 +23,7 @@ export var formatError = function(status, message) {
     return response
 }
 
-export var getVariables = function(resourcePath, pathPattern) {
+var getVariables = function(resourcePath, pathPattern) {
     const regexPattern = /\{([^}]+)\}/g
     const variables = {}
     const params = []
@@ -42,15 +42,17 @@ export var getVariables = function(resourcePath, pathPattern) {
     return variables
 }
 
-export var checkPath = function(resourcePath, routePath) {
+var checkPath = function(resourcePath, routePath) {
     const routePattern = routePath.replace(/\{([^}]+)\}/g, '([^/]+)')
     return new RegExp(`^${routePattern}$`).test(resourcePath)
 }
 
-export var getAccountSettings = function() {
+var getAccountSettings = function() {
     return lambda.getAccountSettings().promise()
 }
 
-export var serialize = function(object) {
+var serialize = function(object) {
     return JSON.stringify(object, null, 2)
 }
+
+module.exports = { formatResponse, formatError, getVariables, checkPath, getAccountSettings, serialize }
