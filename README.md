@@ -39,7 +39,7 @@ In this example you're using:
 
 You can choose one of the three options to refer the framework described above, then you can start write your code like this:
 ```node.js
-const { LowCodeLambda, DynamoResource } = require("lambda-lowcode-layer")
+const { LowCodeLambda, DynamoResource } = require("@raysouz/lambda-lowcode-layer")
 
 exports.handler = async (event) => {
     const app = new LowCodeLambda();
@@ -60,7 +60,7 @@ You also can user a middleware function to create a custom validation that need 
 
 You can write the condition, then you can pass the condition through the app.get declaration:
 ```node.js
-const { LowCodeLambda, DynamoResource } = require("lambda-lowcode-layer")
+const { LowCodeLambda, DynamoResource } = require("@raysouz/lambda-lowcode-layer")
 
 exports.handler = async (event) => {
     const app = new LowCodeLambda();
